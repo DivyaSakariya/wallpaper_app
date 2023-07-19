@@ -10,9 +10,25 @@ class APiHelper {
 
   String api = "https://jsonplaceholder.typicode.com/posts";
 
+  Future<List?> getWallpaper({String query = "clouds"}) async {
+    String wallpaperAPI =
+        "https://pixabay.com/api/?key=36873436-b3162e2779ec114a35661b7fa&q=$query";
+
+    http.Response response = await http.get(Uri.parse(wallpaperAPI));
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+
+      List allData = data['hits'];
+
+      return allData;
+    }
+    return null;
+  }
+
   Future<PostAPI?> getAPiSingleResponse({required int apiNumber}) async {
-    http.Response response = await http.get(
-        Uri.parse("https://jsonplaceholder.typicode.com/posts/$apiNumber"));
+    String api = "https://jsonplaceholder.typicode.com/posts/$apiNumber";
+    http.Response response = await http.get(Uri.parse(api));
 
     if (response.statusCode == 200) {
       Map data = jsonDecode(response.body);

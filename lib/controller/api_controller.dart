@@ -5,10 +5,18 @@ import 'package:wallpaper_app/models/post_api_model.dart';
 class APiController extends ChangeNotifier {
   PostAPI? postAPI;
 
-  TextEditingController textController = TextEditingController();
+  List? wallpaperData = [];
+
+  APiController();
 
   Future<void> getAPiData({required int apiNumber}) async {
-    postAPI = await APiHelper.apiHelper.getAPiSingleResponse(apiNumber: apiNumber);
+    postAPI =
+        await APiHelper.apiHelper.getAPiSingleResponse(apiNumber: apiNumber);
+    notifyListeners();
+  }
+
+  searchWallpaper({String wallpaperApi = "clouds"}) async {
+    wallpaperData = await APiHelper.apiHelper.getWallpaper(query: wallpaperApi);
     notifyListeners();
   }
 }

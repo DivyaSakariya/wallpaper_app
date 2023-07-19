@@ -6,9 +6,7 @@ import 'package:wallpaper_app/models/post_api_model.dart';
 import '../../controller/api_controller.dart';
 
 class HomePage extends StatelessWidget {
-  HomePage({super.key});
-
-  late int num;
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,36 +15,75 @@ class HomePage extends StatelessWidget {
           title: const Text("API Calling"),
           centerTitle: true,
         ),
-        body: Center(
-          child: FutureBuilder(
-            future: APiHelper.apiHelper.getMultipleResponse(),
-            builder: (context, snapShot) {
-              if (snapShot.hasData) {
-                List<PostAPI> allPostAPI = snapShot.data!;
-                return ListView.builder(
-                  itemCount: allPostAPI.length,
-                  itemBuilder: (context, index) => Card(
-                    child: ListTile(
-                      leading: Text(allPostAPI[index].id.toString()),
-                      title: Text(
-                        allPostAPI[index].title,
-                        maxLines: 1,
+        body: Consumer<APiController>(builder: (context, provider, _) {
+          List wallpapers = provider.wallpaperData!;
+          return Center(
+            child: Padding(
+              padding: const EdgeInsets.all(18),
+              child: Column(
+                children: [
+                  TextField(
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Search Wallpaper",
+                    ),
+                    onSubmitted: (value) {
+                      print("VALUE = $value ................");
+                      provider.searchWallpaper(wallpaperApi: value);
+                    },
+                  ),
+                  const SizedBox(height: 30),
+                  Expanded(
+                    child: GridView.builder(
+                      itemCount: wallpapers.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 4,
+                        mainAxisSpacing: 4,
                       ),
-                      subtitle: Text(
-                        allPostAPI[index].body,
-                        maxLines: 2,
+                      itemBuilder: (context, index) => ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Image.network(
+                          wallpapers[index]['largeImageURL'],
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
-                );
-              } else if (snapShot.hasError) {
-                return Text("ERROR : ${snapShot.error}");
-              } else {
-                return const CircularProgressIndicator();
-              }
-            },
-          ),
-        )
+                ],
+              ),
+            ),
+            // child: FutureBuilder(
+            //   future: APiHelper.apiHelper.getMultipleResponse(),
+            //   builder: (context, snapShot) {
+            //     if (snapShot.hasData) {
+            //       List<PostAPI> allPostAPI = snapShot.data!;
+            //       return ListView.builder(
+            //         itemCount: allPostAPI.length,
+            //         itemBuilder: (context, index) => Card(
+            //           child: ListTile(
+            //             leading: Text(allPostAPI[index].id.toString()),
+            //             title: Text(
+            //               allPostAPI[index].title,
+            //               maxLines: 1,
+            //             ),
+            //             subtitle: Text(
+            //               allPostAPI[index].body,
+            //               maxLines: 2,
+            //             ),
+            //           ),
+            //         ),
+            //       );
+            //     } else if (snapShot.hasError) {
+            //       return Text("ERROR : ${snapShot.error}");
+            //     } else {
+            //       return const CircularProgressIndicator();
+            //     }
+            //   },
+            // ),
+          );
+        })
         // Consumer<APiController>(
         //   builder: (context,provider,child) {
         //     return Column(
@@ -62,7 +99,6 @@ class HomePage extends StatelessWidget {
         //                 child: CircularProgressIndicator(),
         //               ),
         //         TextField(
-        //           controller: provider.textController,
         //           keyboardType: TextInputType.number,
         //           decoration: const InputDecoration(
         //             border: OutlineInputBorder(
