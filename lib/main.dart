@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wallpaper_app/controller/api_controller.dart';
+import 'package:wallpaper_app/views/screens/detail_page.dart';
 
 import 'views/screens/home_page.dart';
 
@@ -24,7 +25,10 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         colorSchemeSeed: Colors.deepPurple,
       ),
-      home: HomePage(),
+      routes: {
+        '/': (context) => const HomePage(),
+        'detail_page': (context) => const DetailPage(),
+      },
     );
   }
 }

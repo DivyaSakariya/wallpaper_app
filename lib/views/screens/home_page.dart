@@ -42,11 +42,17 @@ class HomePage extends StatelessWidget {
                         crossAxisSpacing: 4,
                         mainAxisSpacing: 4,
                       ),
-                      itemBuilder: (context, index) => ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Image.network(
-                          wallpapers[index]['largeImageURL'],
-                          fit: BoxFit.cover,
+                      itemBuilder: (context, index) => GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pushNamed('detail_page',
+                              arguments: wallpapers[index]);
+                        },
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image.network(
+                            wallpapers[index]['largeImageURL'],
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     ),

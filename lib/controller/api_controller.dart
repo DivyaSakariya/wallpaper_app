@@ -5,9 +5,11 @@ import 'package:wallpaper_app/models/post_api_model.dart';
 class APiController extends ChangeNotifier {
   PostAPI? postAPI;
 
-  List? wallpaperData = [];
+  List wallpaperData = [];
 
-  APiController();
+  APiController() {
+    searchWallpaper();
+  }
 
   Future<void> getAPiData({required int apiNumber}) async {
     postAPI =
@@ -15,8 +17,9 @@ class APiController extends ChangeNotifier {
     notifyListeners();
   }
 
-  searchWallpaper({String wallpaperApi = "clouds"}) async {
-    wallpaperData = await APiHelper.apiHelper.getWallpaper(query: wallpaperApi);
+  searchWallpaper({String wallpaperApi = "flowers"}) async {
+    wallpaperData =
+        await APiHelper.apiHelper.getWallpaper(query: wallpaperApi) ?? [];
     notifyListeners();
   }
 }
