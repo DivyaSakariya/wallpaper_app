@@ -10,9 +10,9 @@ class APiHelper {
 
   String api = "https://jsonplaceholder.typicode.com/posts";
 
-  Future<List?> getWallpaper({String query = "flowers"}) async {
+  Future<List?> getWallpaper({String query = "all"}) async {
     String wallpaperAPI =
-        "https://pixabay.com/api/?key=36873436-b3162e2779ec114a35661b7fa&q=$query&safesearch=true&orientation=vertical";
+        "https://pixabay.com/api/?key=36873436-b3162e2779ec114a35661b7fa&q=$query&safesearch=true&orientation=vertical&per_page=100";
 
     http.Response response = await http.get(Uri.parse(wallpaperAPI));
 

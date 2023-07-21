@@ -26,8 +26,8 @@ class MyApp extends StatelessWidget {
         colorSchemeSeed: Colors.deepPurple,
       ),
       routes: {
-        '/': (context) => const HomePage(),
-        'detail_page': (context) => const DetailPage(),
+        '/': (context) => HomePage(),
+        'detail_page': (context) => DetailPage(),
       },
     );
   }
